@@ -1,0 +1,53 @@
+var Olive = {
+    AJAX_PATH: '/local/include/ajax/',
+    INCLUDE_PATH: '/local/include/',
+    MEDIA_PATH: '/local/media/',
+    isMobile: function(){
+        return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    },
+    ajaxReloadFunction: function(){
+    },
+    hideImgBeforeLoad:function(){
+        $('.fadeImg').css({'opacity':0});
+        this.LoadHiddenImg();
+    },
+    LoadHiddenImg:function(){
+        $('.fadeImg').imagesLoaded().progress( function( instance, image ) {
+            if (image.isLoaded){
+                $(image.img).animate({'opacity':1})
+            }
+            else {
+                console.log('image is broken for ' + image.img.src)
+            }
+        });
+    },
+    fixHeaderBitrix:function(){
+        if ($('#panel').html()!=""){
+            $('header').css('top',parseInt($('#panel').height()));
+            $(window).on('scroll', function(){
+                $top = parseInt($('#panel').height());
+                if ($(window).scrollTop() > 0 && $(window).scrollTop() < $top){
+                    $('header').css('top',$top-$(window).scrollTop());
+                }
+                else if ($(window).scrollTop() >= $top){
+                    $('header').css('top',0);
+                }
+                else {
+                    $('header').css('top',$top);
+                }
+            });
+        }
+    },
+    init:function(){
+        $.fancybox.defaults.tpl = $.extend($.fancybox.defaults.tpl, {
+            error: '<p class="fancybox-error">Запрашиваемая страница недоступна.<br/>Пожалуйста, повторите попытку.</p>',
+            closeBtn: '<a title="Закрыть" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+            next: '<a title="Следующий" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
+            prev: '<a title="Предыдущий" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
+        });
+        this.ajaxReloadFunction();
+        $('html').removeClass("no-js");
+    
+    /*/init*/
+    }
+}

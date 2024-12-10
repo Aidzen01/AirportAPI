@@ -1,0 +1,20 @@
+$(function(){//DOM READEY
+    Olive.init();
+    Material.init();
+
+    $('.fancybox').fancybox({});
+    $('.js-popUp').fancybox({
+        wrapCSS: 'page',
+        padding : 0,
+        height:"auto",
+        fitToView: false,
+        afterShow: function(current, previous) {
+            Olive.ajaxReloadFunction();
+        }
+    });
+    if (typeof BX === "function") {
+        BX.addCustomEvent('onAjaxSuccess', function() {
+            Olive.ajaxReloadFunction();
+        });
+    }
+});
